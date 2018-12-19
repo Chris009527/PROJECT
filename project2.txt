@@ -128,7 +128,63 @@ fin>>n>>m;
             }
         }
     }
+    path test(R,B);
+
+    if(test.get_p().x==R.x&&test.get_p().y==R.y){
+        cout<<"successful create"<<endl<<"rec_p is at:"<<R.x<<" "<<R.y<<endl;
+    }else
+        cout<<"fail "<<endl;
+
+    test.findw();
+/////////////////////////////////show dis
+   /* cout<<"dis:"<<endl;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(dis[i][j] == 1000001) cout<<"X"<<" ";
+            else cout<<dis[i][j]<<" ";
+        }cout<<endl;
+    }*/
+///////////////////////////////////////
+    fout<<ans.size()<<endl;
+    for(int i=1; i<=step; i++){
+        fout<<ans.front().x<<" "<<ans.front().y<<endl;
+        ans.pop();
+    }
+////////////////////////////////////////////////////////////////////////////
+    for(int i=1;i<=n;i++){
+        delete[]A[m];
+        delete[]w[m];
+        delete[]dis[m];
+        delete[]predecessor[m];
+    }
+    delete[]A;
+    delete[]w;
+    delete[]dis;
+    delete[]predecessor;
+///////////////////////////////////////////////////////////////////////////
+return 0;
+
+}    
 //////////////////////////////
+
+
+void path::walk(Cood dir){
+    now_p = now_p + dir;
+    if(w[now_p.x][now_p.y] == 0){
+        all_clear = all_clear-1;
+    }
+    w[now_p.x][now_p.y] = w[now_p.x][now_p.y]+ 1;
+    ans.push(Cood(now_p.x,now_p.y));
+    battery = battery-1;
+    step = step+1;
+}
+Cood path::get_p(){
+    return now_p;
+}
+
+
+
+
 Cood searchR(int **mat){
     Cood R;
     int n,m;
