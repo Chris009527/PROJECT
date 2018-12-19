@@ -291,4 +291,97 @@ Cood searchR(int **mat){
      }
 
 
+void path::findw(){
+    //cout<<"start to go"<<endl;
+    stack<Cood> visited2;
+    shortest_dis(Up);
+    int undead;
+    Cood tmp;
+    visited2.push(rec_p);
+    while(!visited2.empty() && all_clear != 0){
+        tmp = visited2.top();
+        int Min = 10000001;
+        undead = 0;
+       // cout << battery  << " " << dis[tmp.x][tmp.y]<< endl;
+         if(legalroad(Up,now_p)){
+            Min = min(Min,w[now_p.x-1][now_p.y]);
+            undead ++;
+            //cout<<"findw1"<<endl;
+         }
+         if(legalroad(Right,now_p)){
+            Min = min(Min,w[now_p.x][now_p.y+1]);
+            undead ++;
+            //cout<<"findw2"<<endl;
+         }
+         if(legalroad(Down,now_p)){
+            Min = min(Min,w[now_p.x+1][now_p.y]);
+            undead ++;
+            //cout<<"findw3"<<endl;
+         }
+         if(legalroad(Left,now_p)){
+            Min = min(Min,w[now_p.x][now_p.y-1]);
+            undead ++;
+           // cout<<"findw4"<<endl;
+         }
+         //cout << undead << " " << Min<< endl;
+         if(battery == dis[tmp.x][tmp.y]){
+            recharge();
+            //cout << "\nBack for Charge.\n\n";
+            while(!visited2.empty()){
+                visited2.pop();
+            }
+            visited2.push(return_p);
+        }else if(Min >= w[tmp.x][tmp.y]&&undead == 1){
+            //cout << "Find a dead end at(" << tmp.x <<"," << tmp.y << ")"<<endl;
+            A[tmp.x][tmp.y] = 1;
+            w[tmp.x][tmp.y] = 1000002;
+            visited2.pop();
+            walk(visited2.top()-tmp);
+            w[now_p.x][now_p.y] -= 1;
+        }else if(legalroad(Up,tmp) && w[tmp.x-1][tmp.y]== Min){
+            walk(Up);
+           //   cout<< "walk up1"<<endl;
+            visited2.push(tmp+Up);
+        }else if(legalroad(Right,tmp) && w[tmp.x][tmp.y+1]== Min){
+            walk(Right);
+            // cout<< "walk right1"<<endl;
+            visited2.push(tmp+Right);
+        }else if(legalroad(Down,tmp) && w[tmp.x+1][tmp.y]== Min){
+            walk(Down);
+            //cout<< "walk down1"<<endl;
+            visited2.push(tmp+Down);
+        }else if(legalroad(Left,tmp) && w[tmp.x][tmp.y-1]== Min){
+            walk(Left);
+           // cout<< "walk left1"<<endl;
+            visited2.push(tmp+Left);
+        }else{}
 
+    }
+    found = true;
+
+    recharge();
+}
+void path::recharge(){
+    //cout<<"go back"<<endl;
+    while(now_p!= return_p){
+       /* if(legalroad(Right,now_p) && dis[now_p.x][now_p.y+1]==dis[now_p.x][now_p.y]-1 ){
+            walk(Right);
+            cout<< "walk right"<<endl;
+        }else if(legalroad(Up,now_p) && dis[now_p.x-1][now_p.y]==dis[now_p.x][now_p.y]-1){
+            walk(Up);
+            cout<< "walk up"<<endl;
+        }else if(legalroad(Left,now_p) && dis[now_p.x-1][now_p.y]==dis[now_p.x][now_p.y]-1){
+            walk(Left);
+            cout<< "walk left"<<endl;
+        }else if(legalroad(Down,now_p) && dis[now_p.x+1][now_p.y]==dis[now_p.x][now_p.y]-1){
+            walk(Down);
+             cout<< "walk down"<<endl;
+        }*/
+        walk(predecessor[now_p.x][now_p.y] - now_p);
+    }
+    walk(rec_p - now_p);
+    battery = B;
+    if(found == true)return;
+    walk(return_p - now_p);
+
+}
