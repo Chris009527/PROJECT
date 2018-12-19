@@ -1,0 +1,114 @@
+/usr/bin/bash: q: command not found
+#include<iostream>
+#include<fstream>
+#include<queue>
+using namespace std;
+struct Cood{
+    int x;
+    int y;
+    int count;
+};
+int main(int argc, char* argv[]){
+    int n, m,B;
+    ifstream fin;
+    ofstream fout;
+    string id = "106000212";
+    string Inname("floor.data");
+    string Outname("final.path");
+    fin.open(Inname);
+    fout.open(Outname);
+    if(fin&&fout){
+        cout<<"successful open "<<id+"/floor.data"<<endl;
+        cout<<"successful open "<<id+"/final.path"<<endl;
+    }else{
+        if(!fin&&fout) cout<<"fail input "<<id+"/floor.data"<<endl;
+        else if(fin&&!fout) cout<<"fail output "<<id+"/final.path"<<endl;
+        else cout<<"fail both "<<id+"/floor.data"<<" and "<<id+"/final.path"<<endl;
+
+        return -1;
+    }
+    fin>>n>>m;
+    fin>>B;
+    int **A = new int*[n];
+    for(int i=1;i<=n;i++){
+        A[i] = new int[m];
+    }
+
+
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            fin >> A[i][j];
+        }
+    }
+    Cood searchR(int **mat);
+    //int size0(int **mat);
+
+    queue<Cood> ans;
+    Cood cood;
+    Cood start_p,recharge_p,now_p;
+    //int all_point;
+    int l;
+    Cood *num = new Cood[n*m];
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(A[i][j] == 0){
+                num[++l].x=i;
+                num[l].y = j;
+                num[l].count = 0;
+                cout<<num[l].x<<" "<<num[l].y<<endl;
+            }
+        }
+     }
+
+
+    cood.count=0;
+    start_p = searchR(A);///start at r
+    recharge_p =now_p= start_p;/// recharge at r
+    now_p.count = 0;
+    //all_point = size0(A);
+    while(num[l].count!=0){
+        if(A[now_p.x-1][now_p.y]!=1){///up
+            now_p.x -= 1;
+            now_p.count += 1;
+            ans.push(now_p);
+        }else if(A[now_p.x][now_p.y-1]!=1){///left
+            now_p.y -= 1;
+            now_p.count += 1;
+            ans.push(now_p);
+        }else if(A[now_p.x][now_p.y+1]!=1){///right
+            now_p.y += 1;
+            now_p.count += 1;
+            ans.push(now_p);
+        }else{///down
+            now_p.x += 1;
+            now_p.count += 1;
+            ans.push(now_p);
+        }
+
+
+
+    }
+
+
+
+
+    for(int i=1;i<=n;i++){///delete matrix
+        delete[] A[i];
+    }
+    delete[]A;
+    return 0;
+}//
+//////////////////////////////
+Cood searchR(int **mat){
+    Cood R;
+    int n,m;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(mat[i][j] == 82){
+                R.x = i;
+                R.y = j;
+                return R;
+            }
+        }
+     }
+}
