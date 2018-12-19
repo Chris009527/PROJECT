@@ -1,23 +1,46 @@
-/usr/bin/bash: q: command not found
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <list>
+#include <vector>
 #include <queue>
 #include<stack>
-#include<string>
-#include<cstring>
-#include<algorithm>
 using namespace std;
-int d[4][2]={{0,-1}, {-1,0}, {0,1}, {1,0}};
-int *vis;
-int **book;
-int l,Min;
-#define inf 99999999
 struct Cood{
-    int x;
-    int y;
-    int count;
+    int x,y;
+    Cood(){}
+    Cood(int a,int b){
+        x = a;
+        y = b;
+    }
+    Cood(const Cood& p){
+        x = p.x;
+        y = p.y;
+    }
+    bool operator == (const Cood& p){
+       return(x == p.x && y == p.y);
+    }
+    Cood operator +(const Cood& p){
+        return Cood(x+p.x,y+p.y);
+    }
+    Cood operator -(const Cood& p){
+       return Cood(x-p.x,y-p.y);
+    }
+    bool operator != (const Cood& p){
+       return(x != p.x || y != p.y);
+    }
 };
+//////////////////////////////////////COOD
+int **A;
+int **w;
+int **dis;
+Cood**predecessor;
+int n, m ,B;
+bool found;
+const Cood Up(-1,0),Down(1,0),Left(0,-1),Right(0,1);
+int all_clear;
+queue<Cood>ans;
+int step = 0;
 int main(int argc, char* argv[]){
     int n, m,B;
     ifstream fin;
