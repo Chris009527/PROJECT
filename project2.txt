@@ -41,6 +41,31 @@ const Cood Up(-1,0),Down(1,0),Left(0,-1),Right(0,1);
 int all_clear;
 queue<Cood>ans;
 int step = 0;
+class path{
+public:
+    path(){
+        rec_p.x = 0; rec_p.y = 0;
+        now_p.x = 0; now_p.y = 0;
+        battery = 0;
+    };
+    path(Cood R,int B){
+        rec_p.x = R.x; rec_p.y = R.y ;
+        now_p.x = R.x; now_p.y = R.y;
+        battery = B;
+    };
+    int legalroad(Cood,Cood );
+    void walk(Cood );
+    void findw( );
+    void shortest_dis(Cood);
+    Cood get_p();
+    void recharge();
+private:
+    Cood now_p;
+    int battery;
+    Cood rec_p;
+    Cood return_p;
+
+};
 int main(int argc, char* argv[]){
     int n, m,B;
     ifstream fin;
