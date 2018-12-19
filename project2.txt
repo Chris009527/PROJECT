@@ -384,4 +384,39 @@ void path::recharge(){
     if(found == true)return;
     walk(return_p - now_p);
 
-}
+int path::legalroad(Cood dir, Cood now_p){
+        if(dir == Up){
+            if(now_p.x > 1)
+                if(now_p == return_p)
+                    return(A[now_p.x-1][now_p.y] == 0 || A[now_p.x-1][now_p.y] == 2);
+                else
+                    return(A[now_p.x-1][now_p.y] == 0);
+            else
+                return 0;
+        }else if(dir == Down){
+            if(now_p.x < n)
+                if(now_p == return_p)
+                    return(A[now_p.x+1][now_p.y] == 0 || A[now_p.x+1][now_p.y] == 2);
+                else
+                    return(A[now_p.x+1][now_p.y] == 0);
+            else
+                return 0;
+        }else if(dir == Right){
+            if(now_p.x < m)
+                if(now_p == return_p)
+                    return(A[now_p.x][now_p.y+1] == 0 || A[now_p.x][now_p.y+1] == 2);
+                else
+                    return(A[now_p.x][now_p.y+1] == 0);
+            else
+                return 0;
+        }else if(dir == Left){
+             if(now_p.x > 1)
+                if(now_p == return_p)
+                    return(A[now_p.x][now_p.y-1] == 0 || A[now_p.x][now_p.y-1] == 2);
+                else
+                    return(A[now_p.x][now_p.y-1] == 0);
+            else
+                return 0;
+        }
+        else return 0;
+    }}
