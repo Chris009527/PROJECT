@@ -85,77 +85,49 @@ int main(int argc, char* argv[]){
 
         return -1;
     }
-    fin>>n>>m;
+fin>>n>>m;
     fin>>B;
-    int **A = new int*[n];
+////////////////////////////////////////////////
+    A = new int*[n];
     for(int i=1;i<=n;i++){
         A[i] = new int[m];
     }
-
-
+    w = new int*[n];
     for(int i=1;i<=n;i++){
-        for(int j=1;j<=m;j++){
-            fin >> A[i][j];
-        }
+        w[i] = new int[m];
     }
-    Cood searchR(int **mat);
-    //int size0(int **mat);
-
-    queue<Cood> ans;
-    Cood cood;
-    Cood start_p,recharge_p,now_p;
-    //int all_point;
-    int l;
-    Cood *num = new Cood[n*m];
+    dis = new int*[n];
+    for(int i=1;i<=n;i++){
+        dis[i] = new int[m];
+    }
+    predecessor = new Cood*[n];
+    for(int i=1;i<=n;i++){
+        predecessor[i] = new Cood[m];
+    }
+///////////////////////////////////////////////
+    Cood R;
+    all_clear = 0;
     for(int i=1;i<=n;i++){
         for(int j=1;j<=m;j++){
-            if(A[i][j] == 0){
-                num[++l].x=i;
-                num[l].y = j;
-                num[l].count = 0;
-                cout<<num[l].x<<" "<<num[l].y<<endl;
+            char input;
+            dis[i][j]=10000001;
+            fin >> input;
+            if(input == '1'){
+                A[i][j]=1;
+                w[i][j]=10000001;
+            }else if(input == 'R'){
+                A[i][j]=2;
+                w[i][j]=1;
+                dis[i][j] = 0;
+                R.x = i;
+                R.y = j;
+            }else if(input == '0'){
+                A[i][j]=0;
+                w[i][j]=0;
+                all_clear = all_clear+1;
             }
         }
-     }
-
-
-    cood.count=0;
-    start_p = searchR(A);///start at r
-    recharge_p =now_p= start_p;/// recharge at r
-    now_p.count = 0;
-    //all_point = size0(A);
-    while(num[l].count!=0){
-        if(A[now_p.x-1][now_p.y]!=1){///up
-            now_p.x -= 1;
-            now_p.count += 1;
-            ans.push(now_p);
-        }else if(A[now_p.x][now_p.y-1]!=1){///left
-            now_p.y -= 1;
-            now_p.count += 1;
-            ans.push(now_p);
-        }else if(A[now_p.x][now_p.y+1]!=1){///right
-            now_p.y += 1;
-            now_p.count += 1;
-            ans.push(now_p);
-        }else{///down
-            now_p.x += 1;
-            now_p.count += 1;
-            ans.push(now_p);
-        }
-
-
-
     }
-
-
-
-
-    for(int i=1;i<=n;i++){///delete matrix
-        delete[] A[i];
-    }
-    delete[]A;
-    return 0;
-}//
 //////////////////////////////
 Cood searchR(int **mat){
     Cood R;
