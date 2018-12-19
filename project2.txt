@@ -182,7 +182,99 @@ Cood path::get_p(){
     return now_p;
 }
 
+void path::shortest_dis(Cood dir){///bfs to find shortest_dis
+    int max_dis = 0;
+    queue<Cood> visited;
+    if(dir == Up && legalroad(Up,rec_p)){
+        return_p = rec_p + Up;
+    }else if(dir == Right && legalroad(Right,rec_p)){
+        return_p = rec_p + Right;
+    }else if(dir == Down && legalroad(Down,rec_p)){
+        return_p = rec_p + Down;
+    }else if(dir == Left && legalroad(Left,rec_p)){
+        return_p = rec_p + Left;
+    }else if(dir == Up){
+        shortest_dis(Right);
+        return;
+    }else if(dir == Right){
+        shortest_dis(Down);
+        return;
+    }else if(dir == Down){
+        shortest_dis(Left);
+        return;
+    }else if(dir == Left){
+        return_p = rec_p;
+    }else{
+        return_p = rec_p;
+    }
+    visited.push(return_p);
+    dis[return_p.x][return_p.y] = 1;
+    while(!visited.empty()){
+        Cood tmp = visited.front();
 
+        if(legalroad(Up,tmp) && dis[tmp.x-1][tmp.y]>dis[tmp.x][tmp.y]+1){
+            predecessor[tmp.x-1][tmp.y] = Cood(tmp);
+            dis[tmp.x-1][tmp.y] = dis[tmp.x][tmp.y]+1;
+
+            if(max_dis < dis[tmp.x-1][tmp.y]){
+                max_dis = dis[tmp.x-1][tmp.y];
+            }
+            visited.push(tmp+Up);
+        }
+        if(legalroad(Right,tmp) && dis[tmp.x][tmp.y+1]>dis[tmp.x][tmp.y]+1){
+            predecessor[tmp.x][tmp.y+1] = Cood(tmp);
+            dis[tmp.x][tmp.y+1] = dis[tmp.x][tmp.y]+1;
+
+            if(max_dis < dis[tmp.x][tmp.y+1]){
+                max_dis = dis[tmp.x][tmp.y+1];
+            }
+            visited.push(tmp+Right);
+        }
+        if(legalroad(Down,tmp) && dis[tmp.x+1][tmp.y]>dis[tmp.x][tmp.y]+1){
+            predecessor[tmp.x+1][tmp.y] = Cood(tmp);
+            dis[tmp.x+1][tmp.y] = dis[tmp.x][tmp.y]+1;
+
+            if(max_dis < dis[tmp.x+1][tmp.y]){
+                max_dis = dis[tmp.x+1][tmp.y];
+            }
+            visited.push(tmp+Down);
+        }
+        if(legalroad(Left,tmp) && dis[tmp.x][tmp.y-1]>dis[tmp.x][tmp.y]+1){
+            predecessor[tmp.x][tmp.y-1] = Cood(tmp);
+            dis[tmp.x][tmp.y-1] = dis[tmp.x][tmp.y]+1;
+
+            if(max_dis < dis[tmp.x][tmp.y-1]){
+                max_dis = dis[tmp.x][tmp.y-1];
+            }
+            visited.push(tmp+Left);
+        }
+        visited.pop();
+    }
+    if(max_dis>B/2){
+       // cout << "Wrong start\n";
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                dis[i][j] = 10000001;
+                if(A[i][j] == 2){
+                    dis[i][j] = 0;
+                }
+            }
+        }
+        if(dir == Up){
+            shortest_dis(Right);
+        }else if(dir == Right){
+            shortest_dis(Down);
+        }else if(dir == Down){
+            shortest_dis(Left);
+        }else if(dir == Left){
+            cout<<"wrong testcase"<<endl;
+
+        }
+    }
+    else return;
+
+
+}
 
 
 Cood searchR(int **mat){
@@ -197,7 +289,8 @@ Cood searchR(int **mat){
             }
         }
      }
-queue<Cood> road;
+
+
 
 int bfs(int sx, int sy, int ex, int ey,int **A){///找出兩點最短距離
     memset(book,0,sizeof(book));
