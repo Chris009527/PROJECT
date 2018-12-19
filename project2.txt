@@ -1,8 +1,18 @@
 /usr/bin/bash: q: command not found
-#include<iostream>
-#include<fstream>
-#include<queue>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include<stack>
+#include<string>
+#include<cstring>
+#include<algorithm>
 using namespace std;
+int d[4][2]={{0,-1}, {-1,0}, {0,1}, {1,0}};
+int *vis;
+int **book;
+int l,Min;
+#define inf 99999999
 struct Cood{
     int x;
     int y;
